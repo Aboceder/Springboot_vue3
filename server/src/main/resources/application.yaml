@@ -1,0 +1,27 @@
+# 服务端口
+server:
+  port: 8081
+
+spring:
+  # mysql配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bopomofo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+  # jpa配置
+  jpa:
+    hibernate:
+      # update:项目重启，更新表结构，create：项目重启，先删除表，再生成表（慎用！！！）
+      ddl-auto: update
+    # 是否在控制台打印sql
+    show-sql: false
+    properties:
+      hibernate:
+        # 开启SQL格式化
+        format_sql: true
+
+  main:
+    # bean定义是否能被重写。参考：https://juejin.cn/s/spring.main.allow-bean-definition-overriding%20%E9%85%8D%E7%BD%AE
+    allow-bean-definition-overriding: false
