@@ -26,7 +26,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         PrintWriter writer = response.getWriter();
         String message = "";
         if (exception instanceof LockedException) {
-            message = "账户被TEXT,请与联系管理员处理";
+            message = "账户被锁定,请与联系管理员处理";
         } else if (exception instanceof CredentialsExpiredException) {
             message = "密码过期，请与联系管理员处理!";
         } else if (exception instanceof AccountExpiredException) {
@@ -34,6 +34,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         } else if (exception instanceof DisabledException) {
             message = "账户被禁用，请与联系管理员处理!";
         } else if (exception instanceof UsernameNotFoundException) {
+            message = exception.getMessage();
+        } else {
             message = exception.getMessage();
         }
         writer.write(JSONUtil.toJsonStr(ErrorInfo.failure(401, message)));

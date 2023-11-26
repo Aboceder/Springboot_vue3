@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,24 +32,25 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests()
-                .anyRequest().authenticated() // 拦截所有请求
-                .and()
+                .authorizeHttpRequests(auth -> {
+                    // auth.antMatchers("/path/**").permitAll(); // 如果需要放行其他请求，在上面写这个
+                    auth.anyRequest().authenticated(); // 拦截所有请求
+                })
                 .userDetailsService(userDetailsServiceImpl) // 自定义的用户校验逻辑
-                .formLogin() // 表单登录
-                .loginProcessingUrl("/api/member/login") // 登录路径
-                .successHandler(new LoginSuccessHandler()) // 登录成功处理器
-                .failureHandler(new LoginFailureHandler()) // 登录失败处理器
-                .permitAll()
-                .and()
-                .logout() // 退出登录
-                .logoutUrl("/api/member/logout") // 退出登录路径
-                .permitAll() // 放行退出登录接口
-                .and()
-                .cors()
-                .configurationSource(corsConfigurationSource()) // 放行请求跨域
-                .and()
-                .csrf().disable()
+                .formLogin(login -> { // 表单登录
+                    login.loginProcessingUrl("/api/member/login"); // 登录路径
+                    login.successHandler(new LoginSuccessHandler()); // 登录成功处理器
+                    login.failureHandler(new LoginFailureHandler()); // 登录失败处理器
+                    login.permitAll(); // 放行登录相关路径
+                })
+                .logout(logout -> { // 退出登录
+                    logout.logoutUrl("/api/member/logout"); // 退出登录路径
+                    logout.permitAll(); // 放行退出登录接口
+                })
+                .cors(cors -> {
+                    cors.configurationSource(corsConfigurationSource()); // 放行请求跨域
+                })
+                .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
 
