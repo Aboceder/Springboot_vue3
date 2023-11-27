@@ -1,6 +1,6 @@
 # 服务端口
 server:
-  port: 8081
+  port: 8889
 
 spring:
   # mysql配置
