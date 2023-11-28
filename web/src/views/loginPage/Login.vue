@@ -60,6 +60,8 @@
 
 
 import {Lock, User, View} from "@element-plus/icons-vue";
+import {ElMessage} from "element-plus";
+import router from "@/router";
 
 export default {
     components: {View},
@@ -78,6 +80,7 @@ export default {
                 password: '',
             },
             rememberMe: false,
+            duration: 1500, // 设置弹窗显示时间
         };
     },
     methods: {
@@ -89,7 +92,22 @@ export default {
                 }
             )
                 .then(response => {
-                    console.log(response)
+                    if (response.data.success) {
+                        // 弹窗提示
+                        ElMessage({message: '登录成功!', type: 'success', duration: this.duration})
+
+                        //todo 存储token
+
+                        // 延时跳转到首页
+                        setTimeout(() => {
+                            router.push('/');
+                        }, this.duration);
+                    } else {
+                        ElMessage.error(response.data.message)
+                    }
+                })
+                .catch(error => {
+
                 })
         },
     },
