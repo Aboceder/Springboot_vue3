@@ -23,6 +23,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json;charset=utf-8");
         PrintWriter writer = response.getWriter();
         String message = "";
         if (exception instanceof LockedException) {

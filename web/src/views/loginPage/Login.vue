@@ -6,15 +6,15 @@
             <el-image src="./src/assets/img/bg.jpg" style="width: 100%; height: 100%"/>
         </div>
         <div class="right-column">
-            <div></div>
+            <!--右侧登录表单-->
             <div style="padding: 50px">
-                <el-image src="./src/assets/img/dijia.JPG" style="padding-bottom: 30px"/>
+                <el-image src="./src/assets/app_svg/google_logo.svg" style="padding-bottom: 40px"/>
                 <div style="font-size: 25px; font-weight: bold">
                     登 录
                 </div>
                 <el-input type="text" :prefix-icon="User" placeholder="用户名/手机号" class="pt20"
                           v-model="loginForm.username"/>
-                <el-input type="password" :prefix-icon="Lock" :suffix-icon="View" placeholder="密码" class="pt20"
+                <el-input type="password" :prefix-icon="Lock" show-password placeholder="密码" class="pt20"
                           v-model="loginForm.password"/>
                 <el-row type="flex" justify="space-between" align="middle" style="margin-top: 10px">
                     <!-- 左侧自动登录 -->
@@ -24,13 +24,13 @@
                     <!-- 右侧忘记密码 -->
                     <el-col :span="12">
                         <div style="text-align: right;">
-                            <router-link to="/forgot-password" style="font-size: 14px">忘记密码</router-link>
+                            <router-link to="/forgotPassword" style="font-size: 14px">忘记密码</router-link>
                         </div>
                     </el-col>
                 </el-row>
                 <el-row style="padding: 30px 0;">
                     <el-col :span="12">
-                        <el-button type="success" plain style="width: 100px;">登录</el-button>
+                        <el-button type="success" plain style="width: 100px;" @click="login()">登录</el-button>
                     </el-col>
                     <el-col :span="12">
                         <el-button type="warning" plain style="width: 100px;">注册</el-button>
@@ -62,10 +62,8 @@
 import {Lock, User, View} from "@element-plus/icons-vue";
 
 export default {
+    components: {View},
     computed: {
-        View() {
-            return View
-        },
         User() {
             return User
         },
@@ -84,11 +82,16 @@ export default {
     },
     methods: {
         login() {
-
+            this.axios.post('/api/member/login', {
+                    username: this.loginForm.username,
+                    password: this.loginForm.password,
+                    rememberMe: this.rememberMe
+                }
+            )
+                .then(response => {
+                    console.log(response)
+                })
         },
-        togglePasswordVisibility() {
-
-        }
     },
 };
 </script>

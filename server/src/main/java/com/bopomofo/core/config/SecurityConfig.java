@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -72,15 +73,15 @@ public class SecurityConfig {
         //1.添加CORS配置信息
         CorsConfiguration config = new CorsConfiguration();
         //放行哪些原始域
-        config.addAllowedOrigin("*");
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
         //是否发送Cookie信息
         config.setAllowCredentials(true);
         //放行哪些原始域(请求方式)
-        config.addAllowedMethod("*");
+        config.addAllowedMethod(CorsConfiguration.ALL);
         //放行哪些原始域(头部信息)
-        config.addAllowedHeader("*");
+        config.addAllowedHeader(CorsConfiguration.ALL);
         //暴露哪些头部信息（因为跨域访问默认不能获取全部头部信息）
-        config.addExposedHeader("*");
+        config.addExposedHeader(CorsConfiguration.ALL);
 
         //2.添加映射路径
         UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();

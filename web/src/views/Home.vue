@@ -1,6 +1,6 @@
 <template>
     <h1>hello</h1>
-    <el-button>logout</el-button>
+    <el-button type="info">logout</el-button>
 </template>
 
 <script>
