@@ -3,25 +3,23 @@
 ## SpringSecurity 登录鉴权
 
 ### 安装element plus
-
 ```sh
+# 官网：https://element-plus.org/zh-CN/
 yarn add element-plus
 ```
 
 ### 安装element plus图标库
-
 ```sh
 yarn add @element-plus/icons-vue
 ```
 
 ### 安装axios发送网络请求
-
 ```sh
+# 官网：https://axios-http.com/zh/
 yarn add axios 
 ```
 
 #### 修改axios的默认配置
-
 ```js
 // 通过环境变量获取 baseURL
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -31,7 +29,6 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 ```
 
 #### 在main.js里面引入axios
-
 ```js
 // 引入 Axios  
 import axios from "axios";

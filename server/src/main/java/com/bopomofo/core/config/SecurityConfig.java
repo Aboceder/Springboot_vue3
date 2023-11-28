@@ -56,9 +56,7 @@ public class SecurityConfig {
                     cors.configurationSource(corsConfigurationSource()); // 放行请求跨域
                 })
                 .rememberMe(remember -> {
-                    remember.alwaysRemember(false); // 是否勾选记住我，默认false
                     remember.rememberMeParameter("remember-me"); // 表单提交字段名称，默认“remember-me”
-                    remember.rememberMeCookieName("remember-token"); // 记住我cookie的名称
                     remember.tokenRepository(repository); // rememberMe持久化设置，自动保存到数据库中
                     remember.tokenValiditySeconds(3600 * 24 * 7); // 有效期设置为7天
                 })

@@ -85,7 +85,7 @@ export default {
             this.axios.post('/api/member/login', {
                     username: this.loginForm.username,
                     password: this.loginForm.password,
-                    rememberMe: this.rememberMe
+                    "remember-me": this.rememberMe
                 }
             )
                 .then(response => {
