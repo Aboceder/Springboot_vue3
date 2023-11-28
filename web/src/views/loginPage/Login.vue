@@ -39,16 +39,24 @@
                 <el-divider>其他登录方式</el-divider>
                 <el-row style="padding-top: 30px;">
                     <el-col :span="6">
-                        <el-image class="third-party-login" src="./src/assets/app_svg/WeChat.svg"/>
+                        <el-tooltip content="WeChat" placement="bottom" effect="light">
+                            <el-image class="third-party-login" src="./src/assets/app_svg/WeChat.svg"/>
+                        </el-tooltip>
                     </el-col>
                     <el-col :span="6">
-                        <el-image class="third-party-login" src="./src/assets/app_svg/github_green.svg"/>
+                        <el-tooltip content="Github账号" placement="bottom" effect="light">
+                            <el-image class="third-party-login" src="./src/assets/app_svg/github_green.svg"/>
+                        </el-tooltip>
                     </el-col>
                     <el-col :span="6">
-                        <el-image class="third-party-login" src="./src/assets/app_svg/google.svg"/>
+                        <el-tooltip content="Google账号" placement="bottom" effect="light">
+                            <el-image class="third-party-login" src="./src/assets/app_svg/google.svg"/>
+                        </el-tooltip>
                     </el-col>
                     <el-col :span="6">
-                        <el-image class="third-party-login" src="./src/assets/app_svg/apple.svg"/>
+                        <el-tooltip content="AppleID" placement="bottom" effect="light">
+                            <el-image class="third-party-login" src="./src/assets/app_svg/apple.svg"/>
+                        </el-tooltip>
                     </el-col>
                 </el-row>
             </div>
