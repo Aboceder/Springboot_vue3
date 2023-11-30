@@ -2,12 +2,14 @@ package com.bopomofo.core.config;
 
 import com.bopomofo.core.handler.LoginFailureHandler;
 import com.bopomofo.core.handler.LoginSuccessHandler;
+import com.bopomofo.core.handler.LogoutSuccessfulHandler;
 import com.bopomofo.core.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -37,9 +39,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PersistentTokenRepository repository) throws Exception {
         return http
-                .authorizeHttpRequests(auth -> {
-                    // auth.antMatchers("/path/**").permitAll(); // 如果需要放行其他请求，在上面写这个
-                    auth.anyRequest().authenticated(); // 拦截所有请求
+                //.addFilterBefore(new JwtAuthenticationFilter(), LogoutFilter.class)
+                .cors(cors -> {
+                    cors.configurationSource(corsConfigurationSource()); // 放行请求跨域
+                })
+                .sessionManagement(session -> {
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 禁用session
                 })
                 .userDetailsService(userDetailsServiceImpl) // 自定义的用户校验逻辑
                 .formLogin(login -> { // 表单登录
@@ -50,15 +55,18 @@ public class SecurityConfig {
                 })
                 .logout(logout -> { // 退出登录
                     logout.logoutUrl("/api/member/logout"); // 退出登录路径
+                    logout.logoutSuccessHandler(new LogoutSuccessfulHandler());
                     logout.permitAll(); // 放行退出登录接口
                 })
-                .cors(cors -> {
-                    cors.configurationSource(corsConfigurationSource()); // 放行请求跨域
-                })
                 .rememberMe(remember -> {
-                    remember.rememberMeParameter("remember-me"); // 表单提交字段名称，默认“remember-me”
+                    // remember.rememberMeParameter("remember-me"); // 表单提交字段名称，默认“remember-me”
                     remember.tokenRepository(repository); // rememberMe持久化设置，自动保存到数据库中
                     remember.tokenValiditySeconds(3600 * 24 * 7); // 有效期设置为7天
+                    remember.rememberMeCookieName("bopomofo-rm"); // 默认"remember-me"
+                })
+                .authorizeHttpRequests(auth -> {
+                    // auth.antMatchers("/api/member/logout") .permitAll(); // 如果需要放行其他请求，在上面写这个
+                    auth.anyRequest().authenticated(); // 拦截所有请求
                 })
                 .csrf(AbstractHttpConfigurer::disable) // 关闭csrf
                 .build();

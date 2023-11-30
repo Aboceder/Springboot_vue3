@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "member_user")
 @Where(clause = "if_deleted=0")
+@Accessors(chain = true)
 public class MemberUser extends BaseEntity {
 
     @Column(columnDefinition = "VARCHAR(30) COMMENT '用户名'")

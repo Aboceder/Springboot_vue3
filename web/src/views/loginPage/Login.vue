@@ -105,7 +105,9 @@ export default {
                         ElMessage({message: '登录成功!', type: 'success', duration: this.duration})
 
                         //todo 存储token
+                        const token = JSON.parse(response.data.data).accessToken;
 
+                        this.Cookies.set('access_token', token);
                         // 延时跳转到首页
                         setTimeout(() => {
                             router.push('/');

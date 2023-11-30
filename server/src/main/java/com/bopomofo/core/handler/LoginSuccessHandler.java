@@ -21,7 +21,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
-
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json;charset=utf-8");
         // 构建一个payload对象
         Map<String, Object> payload = new HashMap<>();
         payload.put("username", user.getUsername());
