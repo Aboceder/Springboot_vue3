@@ -28,7 +28,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 判断ignoreToken
         boolean ignoreToken = Boolean.parseBoolean(request.getHeader("ignoreToken"));
-        System.out.println(request.getRequestURL());
         if (!ignoreToken) {
             // 从请求头中获取token
             String token = request.getHeader("Authorization");
@@ -44,9 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-            } else {
-                //todo 令牌过期异样待完善
-                throw new RuntimeException("令牌失效，请重新登陆");
             }
         }
         // 放行

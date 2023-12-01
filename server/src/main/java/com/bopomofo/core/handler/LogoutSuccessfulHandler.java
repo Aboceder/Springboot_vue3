@@ -16,22 +16,17 @@ public class LogoutSuccessfulHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        //User userDetails = (User) authentication.getPrincipal();
-        // 关闭会话，清除缓存
-        request.getSession().invalidate();
-        // 设置为登录状态
-        authentication.setAuthenticated(false);
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("application/json;charset=utf-8");
-        String json = JSONUtil.toJsonStr(RestBean.success("退出成功！！！"));
-        PrintWriter writer = null;
         try {
-            writer = response.getWriter();
+            // 设置为登录状态
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/json;charset=utf-8");
+            String json = JSONUtil.toJsonStr(RestBean.success("退出成功！！！！！！！！"));
+            PrintWriter writer = response.getWriter();
+            writer.write(json);
+            writer.flush();
+            writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        writer.write(json);
-        writer.flush();
-        writer.close();
     }
 }

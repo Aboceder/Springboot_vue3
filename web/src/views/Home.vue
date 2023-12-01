@@ -4,9 +4,7 @@
 </template>
 
 <script>
-import router from "@/router";
 import {ElMessage} from "element-plus";
-import Cookies from "js-cookie";
 
 export default {
     name: "Home",
@@ -21,33 +19,26 @@ export default {
     },
     methods: {
         logout() {
-            this.axios.post('/api/member/logout', null, {
-                    headers: {
-                        "Authorization": "Bearer " + Cookies.get("access_token"),
-                    }
-                }
-            )
+            this.axios.post('/api/member/logout')
                 .then(response => {
                     // 清除token
                     this.Cookies.remove("access_token");
 
                     // 弹窗提示
-                    ElMessage({message: '退出成功!', type: 'success', duration: this.duration})
+                    ElMessage({message: response.data.data, type: 'success', duration: this.duration})
 
                     // 延时跳转到登录页面
                     setTimeout(() => {
-                        router.push('/login');
+                        location.href = '/login';
                     }, this.duration);
                 })
         },
         getUseInfo() {
-            this.axios.get('/api/member/getUserInfo', {
-                headers: {
-                    "Authorization": "Bearer " + Cookies.get("access_token"),
-                },
-            })
+            this.axios.get('/api/member/getUserInfo')
                 .then(response => {
-                    this.username = response.data.data.username;
+                    if (response.data.success) {
+                        this.username = response.data.data.username;
+                    }
                 })
         }
     },

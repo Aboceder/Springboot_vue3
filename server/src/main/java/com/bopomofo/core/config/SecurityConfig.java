@@ -1,8 +1,10 @@
 package com.bopomofo.core.config;
 
 import com.bopomofo.core.filter.JwtAuthenticationFilter;
+import com.bopomofo.core.handler.AuthenticationFailureHandler;
 import com.bopomofo.core.handler.LoginFailureHandler;
 import com.bopomofo.core.handler.LoginSuccessHandler;
+import com.bopomofo.core.handler.LogoutSuccessfulHandler;
 import com.bopomofo.core.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +43,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PersistentTokenRepository repository) throws Exception {
         return http
+                // 在用户名密码校验前面添加jwt校验的过滤器
                 .addFilterBefore(new JwtAuthenticationFilter(userDetailsServiceImpl), UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable) // 关闭csrf
                 .sessionManagement(session -> {
@@ -59,7 +62,7 @@ public class SecurityConfig {
                 })
                 .logout(logout -> { // 退出登录
                     logout.logoutUrl("/api/member/logout"); // 退出登录路径
-                    //logout.addLogoutHandler(new LogoutSuccessfulHandler());
+                    logout.addLogoutHandler(new LogoutSuccessfulHandler());
                     logout.permitAll(); // 允许匿名访问退出登录接口
                 })
                 .rememberMe(remember -> {
@@ -69,7 +72,10 @@ public class SecurityConfig {
                     remember.rememberMeCookieName("bopomofo-rm"); // 默认"remember-me"
                 })
                 .cors(cors -> {
-                    cors.configurationSource(corsConfigurationSource());
+                    cors.configurationSource(corsConfigurationSource());// 跨域配置
+                })
+                .exceptionHandling(exception -> {
+                    exception.authenticationEntryPoint(new AuthenticationFailureHandler());
                 })
 
                 .build();

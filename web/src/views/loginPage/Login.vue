@@ -142,7 +142,7 @@ export default {
 .right-column {
     width: 380px;
     text-align: center;
-    background-color: #fff;
+    /*background-color: rgba(242,240,233);*/
 }
 
 .pt20 {
