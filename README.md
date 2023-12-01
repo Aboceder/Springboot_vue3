@@ -1,6 +1,7 @@
 # Springboot_vue3
 
 ## SpringSecurity 登录鉴权
+_**注意注意！！！！：springboot security自定义过滤器 使用 permitAll() 之后仍然会走过滤器**_
 
 ### 安装element plus
 ```sh

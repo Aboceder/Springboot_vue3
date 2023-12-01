@@ -97,7 +97,8 @@ export default {
                     username: this.loginForm.username,
                     password: this.loginForm.password,
                     "remember-me": this.rememberMe
-                }
+                },
+                {headers: {"ignoreToken": true}}
             )
                 .then(response => {
                     if (response.data.success) {
@@ -117,7 +118,8 @@ export default {
                     }
                 })
                 .catch(error => {
-
+                    console.log(123)
+                    console.log(error)
                 })
         },
     },
@@ -140,6 +142,7 @@ export default {
 .right-column {
     width: 380px;
     text-align: center;
+    background-color: #fff;
 }
 
 .pt20 {

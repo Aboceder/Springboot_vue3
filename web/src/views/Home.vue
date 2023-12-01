@@ -6,6 +6,7 @@
 <script>
 import router from "@/router";
 import {ElMessage} from "element-plus";
+import Cookies from "js-cookie";
 
 export default {
     name: "Home",
@@ -15,12 +16,17 @@ export default {
     data() {
         return {
             duration: 1500,
-            username: 'bopomofo'
+            username: ''
         }
     },
     methods: {
         logout() {
-            this.axios.post('/api/member/logout')
+            this.axios.post('/api/member/logout', null, {
+                    headers: {
+                        "Authorization": "Bearer " + Cookies.get("access_token"),
+                    }
+                }
+            )
                 .then(response => {
                     // 清除token
                     this.Cookies.remove("access_token");
@@ -35,9 +41,13 @@ export default {
                 })
         },
         getUseInfo() {
-            this.axios.get('/api/member/gerUserInfo')
+            this.axios.get('/api/member/getUserInfo', {
+                headers: {
+                    "Authorization": "Bearer " + Cookies.get("access_token"),
+                },
+            })
                 .then(response => {
-                    console.log(response.data)
+                    this.username = response.data.data.username;
                 })
         }
     },

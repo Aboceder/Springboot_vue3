@@ -1,8 +1,8 @@
 package com.bopomofo.core.config;
 
+import com.bopomofo.core.filter.JwtAuthenticationFilter;
 import com.bopomofo.core.handler.LoginFailureHandler;
 import com.bopomofo.core.handler.LoginSuccessHandler;
-import com.bopomofo.core.handler.LogoutSuccessfulHandler;
 import com.bopomofo.core.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,6 +26,7 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
@@ -39,24 +41,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PersistentTokenRepository repository) throws Exception {
         return http
-                //.addFilterBefore(new JwtAuthenticationFilter(), LogoutFilter.class)
-                .cors(cors -> {
-                    cors.configurationSource(corsConfigurationSource()); // 放行请求跨域
-                })
+                .addFilterBefore(new JwtAuthenticationFilter(userDetailsServiceImpl), UsernamePasswordAuthenticationFilter.class)
+                .csrf(AbstractHttpConfigurer::disable) // 关闭csrf
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 禁用session
+                })
+                .authorizeRequests(auth -> {
+                    // auth.antMatchers("/api/**").permitAll(); // 允许匿名访问，只是不需要权限校验，路径依然会经过security的过滤器链
+                    auth.anyRequest().authenticated(); // 拦截所有请求
                 })
                 .userDetailsService(userDetailsServiceImpl) // 自定义的用户校验逻辑
                 .formLogin(login -> { // 表单登录
                     login.loginProcessingUrl("/api/member/login"); // 登录路径
                     login.successHandler(new LoginSuccessHandler()); // 登录成功处理器
                     login.failureHandler(new LoginFailureHandler()); // 登录失败处理器
-                    login.permitAll(); // 放行登录相关路径
+                    login.permitAll(); // 允许匿名访问登录相关路径
                 })
                 .logout(logout -> { // 退出登录
                     logout.logoutUrl("/api/member/logout"); // 退出登录路径
-                    logout.logoutSuccessHandler(new LogoutSuccessfulHandler());
-                    logout.permitAll(); // 放行退出登录接口
+                    //logout.addLogoutHandler(new LogoutSuccessfulHandler());
+                    logout.permitAll(); // 允许匿名访问退出登录接口
                 })
                 .rememberMe(remember -> {
                     // remember.rememberMeParameter("remember-me"); // 表单提交字段名称，默认“remember-me”
@@ -64,18 +68,17 @@ public class SecurityConfig {
                     remember.tokenValiditySeconds(3600 * 24 * 7); // 有效期设置为7天
                     remember.rememberMeCookieName("bopomofo-rm"); // 默认"remember-me"
                 })
-                .authorizeHttpRequests(auth -> {
-                    // auth.antMatchers("/api/member/logout") .permitAll(); // 如果需要放行其他请求，在上面写这个
-                    auth.anyRequest().authenticated(); // 拦截所有请求
+                .cors(cors -> {
+                    cors.configurationSource(corsConfigurationSource());
                 })
-                .csrf(AbstractHttpConfigurer::disable) // 关闭csrf
+
                 .build();
     }
 
     /**
      * 跨域配置
      */
-    private CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         //1.添加CORS配置信息
         CorsConfiguration config = new CorsConfiguration();
         //放行哪些原始域
