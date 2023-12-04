@@ -50,7 +50,7 @@ public class SecurityConfig {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 禁用session
                 })
                 .authorizeRequests(auth -> {
-                    // auth.antMatchers("/api/**").permitAll(); // 允许匿名访问，只是不需要权限校验，路径依然会经过security的过滤器链
+                    auth.antMatchers("/github/**").permitAll(); // 允许匿名访问，只是不需要权限校验，路径依然会经过security的过滤器链
                     auth.anyRequest().authenticated(); // 拦截所有请求
                 })
                 .userDetailsService(userDetailsServiceImpl) // 自定义的用户校验逻辑
@@ -62,6 +62,8 @@ public class SecurityConfig {
                 })
                 .logout(logout -> { // 退出登录
                     logout.logoutUrl("/api/member/logout"); // 退出登录路径
+                    logout.invalidateHttpSession(true);
+                    logout.deleteCookies("bopomofo-rm");
                     logout.addLogoutHandler(new LogoutSuccessfulHandler());
                     logout.permitAll(); // 允许匿名访问退出登录接口
                 })

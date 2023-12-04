@@ -22,8 +22,7 @@ myAxios.interceptors.request.use(config => {
 
 myAxios.interceptors.response.use(
     (res) => {
-        console.log(res)
-        console.log(123)
+        // 处理401令牌失效
         if (res.data.status === 401) {
             const duration = 1500;
             // 清除token
@@ -37,8 +36,6 @@ myAxios.interceptors.response.use(
                 location.href = '/login';
             }, duration);
         }
-
-
         return res;
     }
 )

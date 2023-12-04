@@ -45,7 +45,8 @@
                     </el-col>
                     <el-col :span="6">
                         <el-tooltip content="Github账号" placement="bottom" effect="light">
-                            <el-image class="third-party-login" src="./src/assets/app_svg/github_green.svg"/>
+                            <el-image class="third-party-login" src="./src/assets/app_svg/github_green.svg"
+                                      @click="thirdPartLogin()"/>
                         </el-tooltip>
                     </el-col>
                     <el-col :span="6">
@@ -73,6 +74,9 @@ import router from "@/router";
 
 export default {
     components: {View},
+    created() {
+        this.getClientId();
+    },
     computed: {
         User() {
             return User
@@ -89,6 +93,8 @@ export default {
             },
             rememberMe: false,
             duration: 1500, // 设置弹窗显示时间
+            clientId: '',
+            randomStr: ''
         };
     },
     methods: {
@@ -122,6 +128,16 @@ export default {
                     console.log(error)
                 })
         },
+        thirdPartLogin() {
+            location.href = `https://github.com/login/oauth/authorize?client_id=${this.clientId}&state=${this.randomStr}`
+        },
+        getClientId() {
+            this.axios.get('/github/getGithubClientId')
+                .then(res => {
+                    this.clientId = res.data[0];
+                    this.randomStr = res.data[1];
+                })
+        }
     },
 };
 </script>

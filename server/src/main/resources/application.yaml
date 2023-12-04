@@ -25,3 +25,10 @@ spring:
   main:
     # bean定义是否能被重写。参考：https://juejin.cn/s/spring.main.allow-bean-definition-overriding%20%E9%85%8D%E7%BD%AE
     allow-bean-definition-overriding: false
+
+# 第三方登录
+justAuth:
+  clientId:
+    github: f82537ec1610d5edc2a7
+  clientSecret:
+    github: fd57ff983d08a0f065cbe78ee5ec670fd1ba6f55
