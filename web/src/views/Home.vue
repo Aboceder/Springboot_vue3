@@ -1,5 +1,7 @@
 <template>
-    <h1>hello {{ username }}</h1>
+    <el-main>
+        <h1>hello {{ username }}</h1>
+    </el-main>
 </template>
 
 <script>

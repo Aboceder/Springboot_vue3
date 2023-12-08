@@ -41,9 +41,7 @@ export default defineComponent({
     <el-header v-if="!hasHeader">
         <div class="div-header">
             <div class="logo">
-                <el-icon>
-                    <User/>
-                </el-icon>
+                <el-image src="./src/assets/gif/duofu.gif" style="height: 50px"/>
             </div>
             <div style="display: flex; justify-content: flex-end; flex: 1">
                 <el-button type="warning" @click="logout()">logout</el-button>
@@ -58,10 +56,10 @@ export default defineComponent({
     display: flex;
     align-items: center;
     height: 100%;
-    border-bottom: 1px solid #DDDFE5;
     padding: 0 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #DDDFE5;
 }
-
 .logo {
     width: 200px;
 }
