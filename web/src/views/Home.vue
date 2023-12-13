@@ -1,7 +1,7 @@
 <template>
-    <el-main>
+    <div style="height: 100%;">
         <h1>hello {{ username }}</h1>
-    </el-main>
+    </div>
 </template>
 
 <script>
