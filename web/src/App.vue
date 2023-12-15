@@ -38,7 +38,6 @@ export default defineComponent({
 </script>
 
 <template>
-
     <div v-if="!hasHeader">
         <div class="div-header">
             <div class="logo">
@@ -49,42 +48,7 @@ export default defineComponent({
             </div>
         </div>
     </div>
-
-    <div style="display: flex;width: 100vw;height: 100vh;overflow: hidden">
-        <div class="aside">
-            <el-scrollbar>
-                <el-menu :default-openeds="['1', '3']">
-                    <el-sub-menu index="1">
-                        <template #title>
-                            <el-icon>
-                                <message/>
-                            </el-icon>
-                            Navigator One
-                        </template>
-                        <el-menu-item-group>
-                            <template #title>Group 1</template>
-                            <el-menu-item index="1-1">Option 1</el-menu-item>
-                            <el-menu-item index="1-2">Option 2</el-menu-item>
-                        </el-menu-item-group>
-                        <el-menu-item-group title="Group 2">
-                            <el-menu-item index="1-3">Option 3</el-menu-item>
-                        </el-menu-item-group>
-                        <el-sub-menu index="1-4">
-                            <template #title>Option4</template>
-                            <el-menu-item index="1-4-1">Option 4-1</el-menu-item>
-                        </el-sub-menu>
-                    </el-sub-menu>
-                </el-menu>
-            </el-scrollbar>
-        </div>
-        <div>
-            <el-main>
-                <router-view/>
-            </el-main>
-        </div>
-    </div>
-
-
+    <RouterView></RouterView>
 </template>
 
 <style scoped>
@@ -98,10 +62,6 @@ export default defineComponent({
 }
 
 .logo {
-    width: 200px;
-}
-
-.aside {
     width: 200px;
 }
 </style>

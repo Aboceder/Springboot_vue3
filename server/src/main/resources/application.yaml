@@ -32,3 +32,9 @@ justAuth:
     github: f82537ec1610d5edc2a7
   clientSecret:
     github: fd57ff983d08a0f065cbe78ee5ec670fd1ba6f55
+
+# 和风天气配置
+qWeather:
+  key: a55018e2ed834c80a93182a846fec29b
+  weatherDomain: https://devapi.qweather.com
+  geoDomain: https://geoapi.qweather.com
