@@ -27,7 +27,6 @@ public class QWeatherController {
 
     @GetMapping("/lookupCity")
     public RestBean<Object> lookupCity(String location) {
-        System.out.println("location = " + location);
         HashMap<String, Object> map = new HashMap<>();
         map.put("key", API_KET);
         map.put("location", location);
@@ -44,6 +43,6 @@ public class QWeatherController {
         map.put("key", API_KET);
         map.put("location", location);
         String res = HttpUtil.get(String.format("%s/v7/weather/7d", weatherDomain), map);
-        return RestBean.success(res);
+        return RestBean.success(JSONUtil.parseObj(res));
     }
 }
