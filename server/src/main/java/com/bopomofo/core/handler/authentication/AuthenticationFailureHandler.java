@@ -1,4 +1,4 @@
-package com.bopomofo.core.handler;
+package com.bopomofo.core.handler.authentication;
 
 import cn.hutool.json.JSONUtil;
 import com.bopomofo.core.entity.ErrorInfo;

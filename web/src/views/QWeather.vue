@@ -1,8 +1,9 @@
 <template>
-    <div class="weatherBox">
-        <el-form :model="form" label-width="120px">
-            <el-form-item label="城市">
-                <!--                <el-input v-model="form.location" @focusout="lookupCity()"/>-->
+
+    <div class="search">
+        <el-form :model="form" label-width="120px" class="flex-form">
+            <!-- 城市选择框 -->
+            <el-form-item label="城市" class="flex-form-item">
                 <el-select
                     v-model="form.location"
                     filterable
@@ -20,18 +21,28 @@
                     />
                 </el-select>
             </el-form-item>
-            <el-form-item>
+            <!-- 提交按钮 -->
+            <el-form-item class="flex-form-item">
                 <el-button type="primary" @click="onSubmit()">Submit</el-button>
             </el-form-item>
         </el-form>
-        <ul style="display: flex;flex-wrap: wrap">
-            <li
-                v-for="item in sevenDayWeather"
-                :key="item.id"
-            >
-                <div>{{ item.dayNight }} ~ {{ item.textNight }}</div>
-            </li>
-        </ul>
+    </div>
+    <div class="search">
+        <!-- 使用el-row创建一个行容器 -->
+        <el-row :gutter="20">
+            <!-- 使用v-for遍历weatherList数组 -->
+            <el-col :span="24 / sevenDayWeather.length" v-for="(weather, index) in sevenDayWeather" :key="index">
+                <!-- 使用el-card创建方框 -->
+                <el-card>
+                    <!-- 此处插入天气信息 -->
+                    <div class="weather-info">
+                        <p>{{ weather.fxDate }}</p> <!-- 日期 -->
+                        <p>{{ weather.textDay }} ~ {{ weather.textNight }}</p> <!-- 天气状态 -->
+                        <p>{{ weather.tempMax }}°C ~ {{ weather.tempMin }}°C</p> <!-- 温度 -->
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -51,14 +62,18 @@ export default {
         onSubmit() {
             this.axios.get(`/api/weather/sevenDayWeather?location=${this.form.location}`)
                 .then(res => {
-                    this.sevenDayWeather = res.data.data.daily;
+                    if (res.data.success) {
+                        this.sevenDayWeather = res.data.result.daily;
+                    }
                 })
         },
         lookupCity(query) {
             if (query) {
                 this.axios.get(`/api/weather/lookupCity?location=${query}`)
                     .then((res) => {
-                        this.cities = res.data.data;
+                        if (res.data.success) {
+                            this.cities = res.data.result;
+                        }
                     })
             }
 
@@ -69,14 +84,19 @@ export default {
 </script>
 
 <style scoped>
-.weatherBox {
-    width: 100vw;
-    height: 100vh;
+.search {
     display: flex;
-    align-items: center;
     justify-content: center;
+    padding-top: 100px;
 }
-</style>
-<style scoped>
 
+.flex-form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end; /* 根据需要对齐表单元素 */
+}
+
+.weather-info p {
+    text-align: center;
+}
 </style>

@@ -1,10 +1,10 @@
 package com.bopomofo.core.config;
 
 import com.bopomofo.core.filter.JwtAuthenticationFilter;
-import com.bopomofo.core.handler.AuthenticationFailureHandler;
-import com.bopomofo.core.handler.LoginFailureHandler;
-import com.bopomofo.core.handler.LoginSuccessHandler;
-import com.bopomofo.core.handler.LogoutSuccessfulHandler;
+import com.bopomofo.core.handler.authentication.AuthenticationFailureHandler;
+import com.bopomofo.core.handler.authentication.LoginFailureHandler;
+import com.bopomofo.core.handler.authentication.LoginSuccessHandler;
+import com.bopomofo.core.handler.authentication.LogoutSuccessfulHandler;
 import com.bopomofo.core.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

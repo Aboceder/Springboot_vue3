@@ -22,8 +22,10 @@ export default {
         getUseInfo() {
             this.axios.get('/api/member/getUserInfo')
                 .then(response => {
+                    console.log(response)
                     if (response.data.success) {
-                        this.username = response.data.data.username;
+                        console.log(response.data.result.username)
+                        this.username = response.data.result.username;
                     }
                 })
         }

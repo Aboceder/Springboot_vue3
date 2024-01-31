@@ -1,7 +1,6 @@
 package com.bopomofo.core.controller;
 
 import cn.hutool.http.HttpUtil;
-import com.bopomofo.core.entity.RestBean;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +22,12 @@ public class GithubLoginController {
     private String CLIENT_SECRET;
 
     @GetMapping("/callback")
-    public RestBean<Object> callback(String code) {
+    public String callback(String code) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("client_id", CLIENT_ID);
         map.put("client_secret", CLIENT_SECRET);
         map.put("code", code);
-        String post = HttpUtil.post("https://github.com/login/oauth/access_token", map);
-        return RestBean.success(post);
+        return HttpUtil.post("https://github.com/login/oauth/access_token", map);
     }
 
     @GetMapping("/callback/getCode")

@@ -1,4 +1,4 @@
-package com.bopomofo.core.dao;
+package com.bopomofo.memberUser.dao;
 
 import com.bopomofo.core.entity.po.MemberUser;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,8 @@
-package com.bopomofo.core.handler;
+package com.bopomofo.core.handler.authentication;
 
 import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWTUtil;
-import com.bopomofo.core.entity.RestBean;
+import com.bopomofo.core.entity.UnifyResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -39,7 +39,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // 返回成功响应给前端
         PrintWriter writer = response.getWriter();
-        writer.write(JSONUtil.toJsonStr(RestBean.success(jsonStr)));
+        writer.write(JSONUtil.toJsonStr(new UnifyResponse<>(jsonStr)));
         writer.flush();
         writer.close();
     }

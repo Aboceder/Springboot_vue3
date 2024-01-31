@@ -1,7 +1,7 @@
-package com.bopomofo.core.handler;
+package com.bopomofo.core.handler.authentication;
 
 import cn.hutool.json.JSONUtil;
-import com.bopomofo.core.entity.RestBean;
+import com.bopomofo.core.entity.UnifyResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class LogoutSuccessfulHandler implements LogoutHandler {
             // 设置为登录状态
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/json;charset=utf-8");
-            String json = JSONUtil.toJsonStr(RestBean.success("退出成功！！！！！！！！"));
+            String json = JSONUtil.toJsonStr(new UnifyResponse<>("退出成功！！！！！！！！"));
             PrintWriter writer = response.getWriter();
             writer.write(json);
             writer.flush();

@@ -1,7 +1,7 @@
 package com.bopomofo.core.service;
 
-import com.bopomofo.core.dao.MemberUserDao;
 import com.bopomofo.core.entity.po.MemberUser;
+import com.bopomofo.memberUser.dao.MemberUserDao;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
