@@ -73,6 +73,11 @@
             <artifactId>swagger-annotations</artifactId>
             <version>2.2.20</version>
         </dependency>
+        <!--        actuator端点依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

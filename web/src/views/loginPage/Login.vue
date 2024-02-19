@@ -107,12 +107,13 @@ export default {
                 {headers: {"ignoreToken": true}}
             )
                 .then(response => {
+                    console.log(response)
                     if (response.data.success) {
                         // 弹窗提示
                         ElMessage({message: '登录成功!', type: 'success', duration: this.duration})
 
                         //todo 存储token
-                        const token = JSON.parse(response.data.data).accessToken;
+                        const token = JSON.parse(response.data.result).accessToken;
 
                         this.Cookies.set('access_token', token);
                         // 延时跳转到首页
@@ -124,7 +125,6 @@ export default {
                     }
                 })
                 .catch(error => {
-                    console.log(123)
                     console.log(error)
                 })
         },

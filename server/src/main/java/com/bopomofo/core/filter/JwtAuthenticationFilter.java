@@ -1,12 +1,6 @@
 package com.bopomofo.core.filter;
 
-import cn.hutool.jwt.JWTUtil;
 import com.bopomofo.core.service.UserDetailsServiceImpl;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -26,7 +20,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 判断ignoreToken
+/*        // 判断ignoreToken
         boolean ignoreToken = Boolean.parseBoolean(request.getHeader("ignoreToken"));
         if (!ignoreToken) {
             // 从请求头中获取token
@@ -44,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
-        }
+        }*/
         // 放行
         filterChain.doFilter(request, response);
     }

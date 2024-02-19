@@ -1,5 +1,4 @@
 <template>
-
     <div class="search">
         <el-form :model="form" label-width="120px" class="flex-form">
             <!-- 城市选择框 -->
@@ -44,8 +43,12 @@
             </el-col>
         </el-row>
     </div>
+    <div class="search">
+        <el-card>
+            <div id="echarts" style="width: 600px;height:300px;"></div>
+        </el-card>
+    </div>
 </template>
-
 <script>
 export default {
     name: "QWeather",
@@ -55,7 +58,7 @@ export default {
                 location: ''
             },
             cities: [],
-            sevenDayWeather: []
+            sevenDayWeather: [],
         }
     },
     methods: {
@@ -76,7 +79,6 @@ export default {
                         }
                     })
             }
-
         },
     },
 }

@@ -50,7 +50,7 @@ public class SecurityConfig {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 禁用session
                 })
                 .authorizeRequests(auth -> {
-                    auth.antMatchers("/github/**").permitAll(); // 允许匿名访问，只是不需要权限校验，路径依然会经过security的过滤器链
+                    auth.antMatchers("/**/**").permitAll(); // 允许匿名访问，只是不需要权限校验，路径依然会经过security的过滤器链
                     auth.anyRequest().authenticated(); // 拦截所有请求
                 })
                 .userDetailsService(userDetailsServiceImpl) // 自定义的用户校验逻辑
