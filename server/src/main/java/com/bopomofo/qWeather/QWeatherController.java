@@ -74,4 +74,21 @@ public class QWeatherController {
         String res = HttpUtil.get(String.format("%s/v7/weather/30d", weatherDomain), map);
         return JSONUtil.parseObj(res);
     }
+
+    /**
+     * 同步测试方法
+     *
+     * @param id 测试参数
+     * @throws InterruptedException 线程中断异常
+     */
+    @GetMapping("/synchronized")
+    public void synchronizedTest(String id) throws InterruptedException {
+        // 使用当前对象作为锁对象
+        synchronized (this) {
+            System.out.println("开始");
+            // 线程休眠100毫秒
+            Thread.sleep(100);
+            System.out.println("结束");
+        }
+    }
 }
